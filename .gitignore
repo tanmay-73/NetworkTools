@@ -1,0 +1,13 @@
+*.iml
+.idea
+.directory
+.gradle
+/local.properties
+/.idea/workspace.xml
+/.idea/libraries
+.DS_Store
+/build
+/captures
+TODO
+key.p12
+/keystore

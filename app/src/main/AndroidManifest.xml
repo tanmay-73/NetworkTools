@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    package="com.detpgtu.networktools"
+    android:installLocation="auto"
+    >
+  <uses-permission android:name="android.permission.ACCESS_WIFI_STATE"/>
+  <uses-permission android:name="android.permission.INTERNET" />
+  <application
+      android:name="com.detpgtu.networktools.ANTApplication"
+      android:allowBackup="true"
+      android:icon="@mipmap/ic_launcher"
+      android:label="@string/app_name"
+      android:supportsRtl="true"
+      android:theme="@style/AppTheme"
+      >
+    <activity android:name="com.detpgtu.networktools.pingactivity"
+              android:label="Ping Host"
+              android:parentActivityName="com.detpgtu.networktools.MainActivity"
+     >
+    </activity>
+    <activity android:name="com.detpgtu.networktools.subnetactivity"
+        android:label="Find LAN Devices"
+        android:parentActivityName="com.detpgtu.networktools.MainActivity"
+        >
+    </activity>
+    <activity android:name="com.detpgtu.networktools.portactivity"
+        android:label="Scan Open Ports"
+        android:parentActivityName="com.detpgtu.networktools.MainActivity"
+        >
+    </activity>
+    <activity android:name="com.detpgtu.networktools.wolactivity"
+        android:label="Send Wake On LAN Packet"
+        android:parentActivityName="com.detpgtu.networktools.MainActivity"
+        >
+    </activity>
+    <activity android:name="com.detpgtu.networktools.about"
+        android:label="About"
+        android:parentActivityName="com.detpgtu.networktools.MainActivity"
+        >
+    </activity>
+    <activity
+        android:name="com.detpgtu.networktools.MainActivity"
+        android:label="@string/app_name"
+        android:theme="@style/AppTheme.NoActionBar"
+        >
+      <intent-filter>
+        <action android:name="android.intent.action.MAIN"/>
+        <category android:name="android.intent.category.LAUNCHER"/>
+      </intent-filter>
+    </activity>
+  </application>
+</manifest>

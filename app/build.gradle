@@ -1,0 +1,84 @@
+buildscript {
+  repositories {
+    mavenCentral()
+    jcenter()
+  }
+
+  dependencies {
+    classpath 'com.stanfy.spoon:spoon-gradle-plugin:1.2.2'
+
+    // This is so we can publish straight to Google Play
+    classpath 'com.github.triplet.gradle:play-publisher:1.2.2'
+  }
+}
+
+apply plugin: 'com.android.application'
+apply plugin: 'spoon'
+apply plugin: 'com.github.triplet.play'
+
+play {
+  track = 'beta'
+  if (project.hasProperty("ANDROID_NETWORK_TOOLS_SERVICE_ACCOUNT")) {
+    serviceAccountEmail ANDROID_NETWORK_TOOLS_SERVICE_ACCOUNT
+  }
+  pk12File = file('../key.p12')
+}
+
+android {
+  compileSdkVersion compileSdkVer
+  buildToolsVersion buildToolsVer
+
+  defaultConfig {
+    applicationId "com.detpgtu.networktools"
+    minSdkVersion minSdkVer
+    targetSdkVersion targetSdkVer
+
+    // When updating these, remember to update the vars in the root build.gradle
+    versionName "0.4.5.3"
+    versionCode 21
+
+    archivesBaseName = "AndroidNetworkTools"
+    testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
+  }
+
+  //check if the keystore details are defined in gradle.properties (this is so the key is not in github)
+  if (project.hasProperty("ANDROID_NETWORK_TOOLS_STORE")) {
+    signingConfigs {
+      //from ~/.gradle/gradle.properties
+      release {
+        storeFile file(ANDROID_NETWORK_TOOLS_STORE)
+        keyAlias ANDROID_NETWORK_TOOLS_ALIAS
+        storePassword ANDROID_NETWORK_TOOLS_PASS
+        keyPassword ANDROID_NETWORK_TOOLS_KEY_PASS
+      }
+    }
+  }
+
+  buildTypes {
+    release {
+      if (project.hasProperty("ANDROID_NETWORK_TOOLS_STORE")) {
+        signingConfig signingConfigs.release
+      }
+      minifyEnabled false
+      proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+    }
+  }
+}
+
+// Spoon used for CI / Testing
+spoon {
+  debug = true
+  // To grant permissions to Android M >= devices */
+  grantAllPermissions = true
+}
+
+dependencies {
+  implementation "com.android.support:appcompat-v7:$supportLibVer"
+  implementation "com.android.support:design:$supportLibVer"
+  implementation project(':library')
+    implementation 'com.android.support.constraint:constraint-layout:2.0.4'
+    testImplementation 'junit:junit:4.13.2'
+  androidTestImplementation 'com.squareup.spoon:spoon-client:1.7.1'
+  androidTestImplementation 'com.android.support.test.espresso:espresso-core:3.0.2'
+  androidTestImplementation('com.android.support.test.espresso:espresso-intents:3.0.2')
+}
